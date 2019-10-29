@@ -92,6 +92,7 @@ Content-Type: application/xml
 
 ## REST API
 ---------
+
 GET - Pobierz
 POST - Utwórz
 PUT - Podmień
@@ -100,17 +101,20 @@ DELETE - Usuń
 HEAD - Sprawdź czy istnieje (bez pobierania danych)
 
 prawidłowe
+~~~
 GET api/customers
 GET api/customers/10
 GET api/customers/altkom
 GET api/customers?city=Katowice&Street=Opolska
 DELETE api/customers/10
+~~~
 
 nieprawidłowe
+~~~
 GET api/customers?Id=10
 GET api/customers/delete?Id=10
 GET api/customers/GetCustomerByCity?city=Poznan
-
+~~~
 
 
 ## KESTREL
