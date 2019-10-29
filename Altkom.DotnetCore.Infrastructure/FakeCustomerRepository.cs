@@ -1,19 +1,26 @@
 ﻿using Altkom.DotnetCore.Infrastructure.Fakers;
 using Altkom.DotnetCore.Models;
 using Altkom.DotnetCore.Models.SearchCriterias;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Altkom.DotnetCore.Infrastructure
 {
+    public class CustomerOptions
+    {
+        public int Count { get; set; }
+    }
+
     public class FakeCustomerRepository : ICustomerRepository
     {
         private ICollection<Customer> customers;
 
-        public FakeCustomerRepository(CustomerFaker customerFaker)
+        // dotnet add package Microsoft.Extensions.Options
+        public FakeCustomerRepository(IOptions<CustomerOptions> options, CustomerFaker customerFaker)
         {
-            customers = customerFaker.Generate(100);
+            customers = customerFaker.Generate(options.Value.Count);
         }
 
         public void Add(Customer customer)

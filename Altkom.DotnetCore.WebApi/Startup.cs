@@ -31,13 +31,18 @@ namespace Altkom.DotnetCore.WebApi
             services.AddScoped<CustomerFaker>();
             services.AddScoped<AddressFaker>();
 
+            services.Configure<CustomerOptions>(Configuration.GetSection("CustomerOptions"));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+
+            var customerCount = Configuration["CustomerCount"];
+
+            var url = Configuration["SmsService:Url"];
 
             if (env.IsDevelopment())
             {

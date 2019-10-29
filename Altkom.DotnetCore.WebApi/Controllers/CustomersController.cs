@@ -77,6 +77,7 @@ namespace Altkom.DotnetCore.WebApi.Controllers
             return Ok(customers);
         }
 
+        // POST api/customers
         [HttpPost]
         public IActionResult Post([FromBody] Customer customer)
         {
@@ -91,6 +92,47 @@ namespace Altkom.DotnetCore.WebApi.Controllers
 
 
         }
+
+        // PUT api/customers/10
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Customer customer)
+        {
+            if (id != customer.Id)
+                return BadRequest();
+
+            customerRepository.Update(customer);
+
+            return Ok();
+        }
+
+        // DELETE api/customers/10
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            customerRepository.Remove(id);
+
+            return Ok();
+        }
+
+        // GET /api/customers/10/orders
+
+        [HttpGet("{id}/orders")]
+        public IActionResult GetOrders(int customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        // GET /api/customers?barcode=XYZ32382
+
+        // GET /api/products/XYZ32382/customers
+        [HttpGet("~/api/products/{barcode}/customers")]
+        public IActionResult GetCustomersByProduct(string barcode)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // GET /api/customers/10/orders/2/details
 
     }
 }
