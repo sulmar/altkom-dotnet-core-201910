@@ -15,4 +15,27 @@ namespace Altkom.DotnetCore.Models
         public DateTime? BirthDay { get; set; }
         public bool IsRemoved { get; set; }
     }
+
+    public abstract class Person
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+    }
+
+    public class Woman : Person
+    {
+        public int EyeColor { get; set; }
+    }
+
+    public class Man : Person
+    {
+
+    }
+
+    // <xml>
+    // <Woman><Id>1</Id><FirstName>Paula</FirstName></Woman>
+    // </xml>
+
+    // {"Id": 1, "FirstName":"Paula", "Type": "Woman" }
+
 }

@@ -11,6 +11,8 @@ namespace Altkom.DotnetCore.Infrastructure
     public class CustomerOptions
     {
         public int Count { get; set; }
+
+        public int Timeout { get; set; }
     }
 
     public class FakeCustomerRepository : ICustomerRepository
@@ -18,10 +20,15 @@ namespace Altkom.DotnetCore.Infrastructure
         private ICollection<Customer> customers;
 
         // dotnet add package Microsoft.Extensions.Options
-        public FakeCustomerRepository(IOptions<CustomerOptions> options, CustomerFaker customerFaker)
+        public FakeCustomerRepository( IOptions<CustomerOptions> options, CustomerFaker customerFaker)
         {
             customers = customerFaker.Generate(options.Value.Count);
         }
+
+        //public FakeCustomerRepository(CustomerOptions options, CustomerFaker customerFaker)
+        //{
+        //    customers = customerFaker.Generate(options.Count);
+        //}
 
         public void Add(Customer customer)
         {

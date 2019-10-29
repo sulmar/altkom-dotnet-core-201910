@@ -17,9 +17,23 @@ namespace Altkom.DotnetCore.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        //public Startup(IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
+
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+             
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddXmlFile("appsettings.xml", optional: true)
+                ;
+
+            Configuration = builder.Build();
+
         }
 
         public IConfiguration Configuration { get; }
@@ -33,7 +47,20 @@ namespace Altkom.DotnetCore.WebApi
 
             services.Configure<CustomerOptions>(Configuration.GetSection("CustomerOptions"));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //var customerOptions = new CustomerOptions();
+            //Configuration.GetSection("CustomerOptions").Bind(customerOptions);
+            //services.AddSingleton(customerOptions);
+
+            // dotnet add package Microsoft.AspNetCore.Mvc.Formatters.Xml
+            
+            services.AddMvc()
+                .AddXmlSerializerFormatters()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
