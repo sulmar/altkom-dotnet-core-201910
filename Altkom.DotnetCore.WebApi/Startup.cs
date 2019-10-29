@@ -49,7 +49,7 @@ namespace Altkom.DotnetCore.WebApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

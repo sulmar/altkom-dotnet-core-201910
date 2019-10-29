@@ -7,6 +7,8 @@ namespace Altkom.DotnetCore.Infrastructure.Fakers
     {
         public AddressFaker()
         {
+            UseSeed(1);
+
             RuleFor(p => p.City, f => f.Address.City());
             RuleFor(p => p.Street, f => f.Address.StreetName());
             RuleFor(p => p.Country, f => f.Address.Country());

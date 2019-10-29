@@ -1,5 +1,6 @@
 ﻿using Altkom.DotnetCore.Infrastructure.Fakers;
 using Altkom.DotnetCore.Models;
+using Altkom.DotnetCore.Models.SearchCriterias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,13 +34,37 @@ namespace Altkom.DotnetCore.Infrastructure
         public IEnumerable<Customer> Get(string city, string street)
         {
             return customers
-                .Where(customer => customer.HomeAddress.City == city || customer.HomeAddress.Street == street)
+                .Where(customer => customer.HomeAddress.City == city 
+                || customer.HomeAddress.Street == street)
                 .ToList();
         }
 
         public Customer Get(string lastname)
         {
             return customers.SingleOrDefault(c => c.LastName == lastname);
+        }
+
+        public IEnumerable<Customer> Get(CustomerSearchCriteria searchCriteria)
+        {
+            IQueryable<Customer> results = customers.AsQueryable();
+
+            // Expression
+            if (!string.IsNullOrEmpty(searchCriteria.City))
+            {
+                results = results.Where(c => c.HomeAddress.City == searchCriteria.City);
+            }
+
+            if (!string.IsNullOrEmpty(searchCriteria.Street))
+            {
+                results = results.Where(c => c.HomeAddress.Street == searchCriteria.Street);
+            }
+
+            if (!string.IsNullOrEmpty(searchCriteria.Country))
+            {
+                results = results.Where(c => c.HomeAddress.Country == searchCriteria.Country);
+            }
+
+            return results.ToList();
         }
 
         //public Customer GetOld(int id)
