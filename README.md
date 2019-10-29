@@ -93,12 +93,6 @@ Content-Type: application/xml
 ~~~
 
 
---
-
-żądanie (request)
-GET /api/customers/create?FirstName=John&LastName=Smith&Password=1234 HTTP/1.1
-
-
 
 ## SOAP 
 żądanie (request)
@@ -116,8 +110,6 @@ Content-Type: application/xml
 ~~~
 
 ## REST API
----------
-
 
 | Akcja  | Opis                  |
 |--------|-----------------------|
@@ -145,20 +137,19 @@ GET api/customers/delete?Id=10
 GET api/customers/GetCustomerByCity?city=Poznan
 ~~~
 
-
-## KESTREL
-
-
 ## Porównanie ASP.NET MVC i .NET Core
 
 ASP.NET MVC 
-Controller 	ApiController
+~~~
+  Controller 	  ApiController
   View(model)	  Ok(model)
+~~~
 
 .NET Core
-Controller    -> BaseController
+~~~
+ Controller   -> BaseController
  View(model)     Ok(model)
-
+~~~
 
 ## Wstrzykiwanie zależności
 
@@ -189,9 +180,7 @@ Unity, AutoFac, Ninject, LightInject
 ADO.NET | Dapper/PetaPOCO | EF Core/nHibernate
 ~~~
 
-
-
- 	  
+ 
 
 
 
