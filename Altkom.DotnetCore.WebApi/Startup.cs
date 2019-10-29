@@ -31,8 +31,6 @@ namespace Altkom.DotnetCore.WebApi
             services.AddScoped<CustomerFaker>();
             services.AddScoped<AddressFaker>();
 
-          
-            services.Configure(config=>config.con)
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
