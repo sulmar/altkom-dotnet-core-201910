@@ -135,27 +135,30 @@ Controller    -> BaseController
 
 DI/IoC 
 
+~~~ csharp
 interface Factory
 {
    T Create<T>();
 }
+~~~
 
 
-
-| Key 			| Value |		 | Cykl zycia
- ICustomerRepository	| FakeCustomerRepository | S
- CustomerFaker		  CustomerFaker
- AddressFaker 		AddressFaker
-
+~~~
+| Key 			         | Value                  | Cykl zycia
+| ICustomerRepository	| FakeCustomerRepository | Singleton
+| CustomerFaker		   | CustomerFaker          |
+| AddressFaker 		   | AddressFaker           |
+~~~
 
 - Przykładowe frameworki
-Unity, AutoFac, Ninject, LightInject)
+Unity, AutoFac, Ninject, LightInject
  
 ## Baza danych
 
 - Przykładowe frameworki
+~~~
 ADO.NET | Dapper/PetaPOCO | EF Core/nHibernate
-
+~~~
 
 
 
