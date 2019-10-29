@@ -264,6 +264,37 @@ public class Startup
 ~~~
  
 
+## Opcje serializacji json
+
+Plik Startup.cs
+
+~~~ csharp
+
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddMvc()
+    .AddJsonOptions(options =>
+    {
+        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; // Wyłączenie generowania wartości null w jsonie
+        options.SerializerSettings.Converters.Add(new StringEnumConverter(camelCaseText: true));  // Serializacja enum jako tekst
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // Zapobieganie cyklicznej serializacji
+
+    })
+}
+~~~
+
+### Włączenie obsługi XML
+
+Plik Startup.cs
+
+~~~ csharp
+ public void ConfigureServices(IServiceCollection services)
+ {
+     services
+         .AddMvc(options => options.RespectBrowserAcceptHeader = true)
+         .AddXmlSerializerFormatters();
+ }
+~~~
 
 
 
