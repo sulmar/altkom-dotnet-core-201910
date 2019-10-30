@@ -39,6 +39,10 @@
    + - Api
 ~~~   
 
+## HTTP Client
+ServiceStack.HttpClient
+
+
 ## .NET Standard
 
 ~~~
@@ -180,7 +184,176 @@ Unity, AutoFac, Ninject, LightInject
 ADO.NET | Dapper/PetaPOCO | EF Core/nHibernate
 ~~~
 
+## Konfiguracja
+
+- Utworzenie klasy opcji
+~~~ csharp
+public class CustomerOptions
+{
+    public int Quantity { get; set; }
+}
+~~~
+
+
+- Plik konfiguracyjny appsettings.json
+
+~~~ json
+{
+  "CustomersModule": {
+    "Quantity": 40
+  },
+  
+  ~~~
+
+- Instalacja biblioteki
+
+~~~ bash
+ dotnet add package Microsoft.Extensions.Options
+~~~
+
+- Użycie opcji
+
+~~~ csharp
+
+public class FakeCustomersService
+{
+   private readonly CustomerOptions options;
+
+    public FakeCustomersService(IOptions<CustomerOptions> options)
+    {
+        this.options = options.Value;
+    }
+}
+       
+~~~
+
+- Konfiguracja opcji
+
+~~~ csharp
+public class Startup
+    {
+        public IConfiguration Configuration { get; }
+    
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddXmlFile("appsettings.xml", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            Configuration = builder.Build();
+
+        }
+        
+      public void ConfigureServices(IServiceCollection services)
+      {
+          services.Configure<CustomerOptions>(Configuration.GetSection("CustomersModule"));
+      }
+    }
+~~~
+
+- Konfiguracja bez interfejsu IOptions<T>
+  
+~~~ csharp
+  public void ConfigureServices(IServiceCollection services)
+        {
+            var customerOptions = new CustomerOptions();
+            Configuration.GetSection("CustomersModule").Bind(customerOptions);
+            services.AddSingleton(customerOptions);
+
+            services.Configure<CustomerOptions>(Configuration.GetSection("CustomersModule"));
+        }
+
+~~~
  
+
+## Opcje serializacji json
+
+Plik Startup.cs
+
+~~~ csharp
+
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddMvc()
+    .AddJsonOptions(options =>
+    {
+        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; // Wyłączenie generowania wartości null w jsonie
+        options.SerializerSettings.Converters.Add(new StringEnumConverter(camelCaseText: true));  // Serializacja enum jako tekst
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // Zapobieganie cyklicznej serializacji
+
+    })
+}
+~~~
+
+### Włączenie obsługi XML
+
+Plik Startup.cs
+
+~~~ csharp
+ public void ConfigureServices(IServiceCollection services)
+ {
+     services
+         .AddMvc(options => options.RespectBrowserAcceptHeader = true)
+         .AddXmlSerializerFormatters();
+ }
+~~~
+
+
+
+
+## Task
+
+~~~
+
+  t1    -----+=============+------------------->
+
+
+  t1    -----+-------+------------------------>
+ 	     |       |        |
+  t2    -----+=============|------------------>
+ 	             |        |
+  t3    -------------+=============|---------->
+                              |
+  t4    ----------------------+=======|------->
+
+~~~
+
+Task 
+Task<TResult>
+
+## Middleware
+
+~~~
+       middleware (filter)
+   ----|---|-----|-----|-----|===Get(100)====|------->
+ 
+~~~
+
+## Autoryzacja
+
+### Basic 
+~~~
+
+| key           | value
+| Authorization | Basic base64(login:hashpassword)
+~~~
+
+### Token
+~~~
+| Authorization | Bearer {token}
+~~~
+
+- OAuth 2.0 (google, facebook, github)
+- JWT 
+
+
+
+
+
+
+
 
 
 
