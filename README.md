@@ -39,6 +39,10 @@
    + - Api
 ~~~   
 
+## HTTP Client
+ServiceStack.HttpClient
+
+
 ## .NET Standard
 
 ~~~
