@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altkom.DotnetCore.Models", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altkom.DotnetCore.WebApi", "Altkom.DotnetCore.WebApi\Altkom.DotnetCore.WebApi.csproj", "{3AE799E5-23D8-4353-A147-644908328569}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altkom.DotnetCore.Infrastructure", "Altkom.DotnetCore.Infrastructure\Altkom.DotnetCore.Infrastructure.csproj", "{1B91E8CE-2E01-4A8E-A9D1-61976203E9CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altkom.DotnetCore.Infrastructure", "Altkom.DotnetCore.Infrastructure\Altkom.DotnetCore.Infrastructure.csproj", "{1B91E8CE-2E01-4A8E-A9D1-61976203E9CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altkom.DotnetCore.Mvc", "Altkom.DotnetCore.Mvc\Altkom.DotnetCore.Mvc.csproj", "{66CFD31C-BF91-426C-A642-EED167627D93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{1B91E8CE-2E01-4A8E-A9D1-61976203E9CC}.Release|x64.Build.0 = Release|Any CPU
 		{1B91E8CE-2E01-4A8E-A9D1-61976203E9CC}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B91E8CE-2E01-4A8E-A9D1-61976203E9CC}.Release|x86.Build.0 = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|x64.Build.0 = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Debug|x86.Build.0 = Debug|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|x64.ActiveCfg = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|x64.Build.0 = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|x86.ActiveCfg = Release|Any CPU
+		{66CFD31C-BF91-426C-A642-EED167627D93}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

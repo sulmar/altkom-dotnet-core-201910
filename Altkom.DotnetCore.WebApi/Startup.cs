@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Altkom.DotnetCore.WebApi
 {
@@ -51,6 +52,12 @@ namespace Altkom.DotnetCore.WebApi
             //Configuration.GetSection("CustomerOptions").Bind(customerOptions);
             //services.AddSingleton(customerOptions);
 
+
+            // dotnet add package Swashbuckle.AspNetCore
+
+            services.AddSwaggerGen(options 
+                => options.SwaggerDoc("v1", new Info { Title = "My Api", Version = "1.0" }));
+
             // dotnet add package Microsoft.AspNetCore.Mvc.Formatters.Xml
             
             services.AddMvc()
@@ -80,6 +87,11 @@ namespace Altkom.DotnetCore.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options => 
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api"));
 
            // app.UseHttpsRedirection();
             app.UseMvc();

@@ -81,6 +81,11 @@ namespace Altkom.DotnetCore.Infrastructure
             return results.ToList();
         }
 
+        public bool IsExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         //public Customer GetOld(int id)
         //{
         //    foreach (var customer in customers)

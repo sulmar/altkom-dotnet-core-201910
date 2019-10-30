@@ -38,11 +38,24 @@ namespace Altkom.DotnetCore.WebApi.Controllers
         //    return Ok(customers);
         //}
 
+
+        // dotnet add package Microsoft.AspNetCore.Mvc.Api.Analyzers
+
         // GET api/customers/10
+        /// <summary>
+        /// Get customer by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}", Name = nameof(GetById))]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]       
         public IActionResult GetById(int id)
         {
             var customer = customerRepository.Get(id);
+
+            if (customer == null)
+                return NotFound();
 
             return Ok(customer);
         }
