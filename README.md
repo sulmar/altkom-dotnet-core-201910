@@ -303,4 +303,60 @@ Plik Startup.cs
 
 
 
+## Task
+
+~~~
+
+  t1    -----+=============+------------------->
+
+
+  t1    -----+-------+------------------------>
+ 	     |       |        |
+  t2    -----+=============|------------------>
+ 	             |        |
+  t3    -------------+=============|---------->
+                              |
+  t4    ----------------------+=======|------->
+
+~~~
+
+Task 
+Task<TResult>
+
+## Middleware
+
+~~~
+       middleware (filter)
+   ----|---|-----|-----|-----|===Get(100)====|------->
+ 
+~~~
+
+## Autoryzacja
+
+### Basic 
+~~~
+
+| key           | value
+| Authorization | Basic base64(login:hashpassword)
+~~~
+
+### Token
+~~~
+| Authorization | Bearer {token}
+~~~
+
+- OAuth 2.0 (google, facebook, github)
+- JWT 
+
+
+
+
+
+
+
+
+
+
+
+
 
