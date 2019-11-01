@@ -334,16 +334,119 @@ Task<TResult>
 ## Autoryzacja
 
 ### Basic 
+Headers 
+| Key   | Value  |
+|---|---|
+| Authorization | Basic {Base64(login:password)}  |
+
+
+### Implementacja
+
+- Utworzenie interfejsu
+~~~ csharp
+public interface ICustomerRepository : IEntityRepository<Customer>
+{
+  bool TryAuthorize(string username, string hashPasword, out Customer customer);
+}
 ~~~
 
-| key           | value
-| Authorization | Basic base64(login:hashpassword)
+- Implementacja repozytorium 
+
+~~~
+public class DbCustomerRepository : ICustomerRepository
+{
+     private readonly MyContext context;
+     
+     public DbCustomerRepository(MyContext context)
+     {
+         this.context = context;
+     }
+     
+     public bool TryAuthorize(string username, string hashPasword, out Customer customer)
+     {
+         customer = context.Customers.SingleOrDefault(e => e.UserName == username && e.HashPassword == hashPasword);
+
+         return customer != null;
+     }
+ }
+~~~
+
+- Utworzenie uchwytu autoryzacji
+
+~~~ csharp
+public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    {
+        private readonly ICustomerRepository customerRepository;
+
+        public BasicAuthenticationHandler(
+            ICustomerRepository customerRepository,
+            IOptionsMonitor<AuthenticationSchemeOptions> options, 
+            ILoggerFactory logger, 
+            UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        {
+            this.customerRepository = customerRepository;
+        }
+
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+                return AuthenticateResult.Fail(string.Empty);
+
+            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+
+            if (authHeader.Scheme != "Basic")
+                return AuthenticateResult.Fail(string.Empty);
+
+            var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
+            string[] credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
+
+            if (!customerRepository.TryAuthorize(credentials[0], credentials[1], out Customer customer))
+            {
+                return AuthenticateResult.Fail("Invalid username or password");
+            }
+
+            ClaimsIdentity identity = new ClaimsIdentity("Basic");
+
+            identity.AddClaim(new Claim(ClaimTypes.HomePhone, "555-444-333"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "Developer")); 
+
+            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+            var ticket = new AuthenticationTicket(principal, "Basic");
+
+            return AuthenticateResult.Success(ticket);
+
+        }
+    }
+~~~
+
+- Rejestracja
+Startup.cs
+
+~~~ csharp
+ public void ConfigureServices(IServiceCollection services)
+{
+
+    services.AddAuthentication("BasicAuthorization")
+        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthorization", null);
+  }
+  
+ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+  {
+      
+
+      app.UseAuthentication();
+      app.UseMvc();
+    }
+
 ~~~
 
 ### Token
-~~~
-| Authorization | Bearer {token}
-~~~
+
+Headers 
+| Key   | Value  |
+|---|---|
+| Authorization | Bearer {token}  |
 
 - OAuth 2.0 (google, facebook, github)
 - JWT 
