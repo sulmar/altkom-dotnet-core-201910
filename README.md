@@ -352,7 +352,7 @@ public interface ICustomerRepository : IEntityRepository<Customer>
 
 - Implementacja repozytorium 
 
-~~~
+~~~ csharp
 public class DbCustomerRepository : ICustomerRepository
 {
      private readonly MyContext context;
