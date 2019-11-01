@@ -30,7 +30,8 @@
 ~~~
 + Solution
    |
-   + - ConsoleClient
+   + - Console
+   
    |
    + - Models
    |
@@ -40,8 +41,62 @@
 ~~~   
 
 ## HTTP Client
-ServiceStack.HttpClient
 
+
+- Instalacja
+~~~ bash
+dotnet add package ServiceStack.HttpClient
+~~~
+
+- Pobranie listy obiektów
+~~~ csharp
+public async Task<IEnumerable<Customer>> Get()
+{
+   var url = $"{baseUri}/api/customers";
+
+   var json = await url.GetJsonFromUrlAsync();
+
+   var customers = json.FromJson<ICollection<Customer>();
+
+   return customers;
+}
+~~~
+
+- Przekazanie parametrów
+~~~ csharp
+
+public async Task<IEnumerable<Customer>> Get(CustomerSearchCriteria customerSearchCriteria)
+{
+   var url = $"{baseUri}/api/customers";
+
+   url = AddQueryCustomerParams(customerSearchCriteria, url);
+
+   var json = await url.GetJsonFromUrlAsync();
+
+   var customers = json.FromJson<ICollection<Customer>>();
+
+   return customers;
+}
+
+private static string AddQueryCustomerParams(CustomerSearchCriteria searchCriteria, string url)
+  {
+      if (!string.IsNullOrEmpty(searchCriteria.CustomerNumber))
+          url = url.AddQueryParam(nameof(CustomerSearchCriteria.CustomerNumber), searchCriteria.CustomerNumber);
+
+      if (!string.IsNullOrEmpty(searchCriteria.City))
+          url = url.AddQueryParam(nameof(CustomerSearchCriteria.City), searchCriteria.City);
+
+      if (!string.IsNullOrEmpty(searchCriteria.Street))
+          url = url.AddQueryParam(nameof(CustomerSearchCriteria.Street), searchCriteria.Street);
+
+      if (!string.IsNullOrEmpty(searchCriteria.Country))
+          url = url.AddQueryParam(nameof(CustomerSearchCriteria.Country), searchCriteria.Country);
+
+
+      return url;
+  }
+
+~~~ 
 
 ## .NET Standard
 
