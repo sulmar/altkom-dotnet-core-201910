@@ -360,10 +360,9 @@ Plik Startup.cs
 
 ## Task
 
-~~~
+~~~ Wątki
 
   t1    -----+=============+------------------->
-
 
   t1    -----+-------+------------------------>
  	     |       |        |
@@ -375,14 +374,15 @@ Plik Startup.cs
 
 ~~~
 
-Task 
-Task<TResult>
+- Task - zadanie, które nie zwraca wyniku  
+- Task<TResult> - zadanie, które zwraca wynik o podanym typie
+   
 
 ## Middleware
 
 ~~~
        middleware (filter)
-   ----|---|-----|-----|-----|===Get(100)====|------->
+   request -> ----|---|-----|-----|-----|===Get(100)====|---response--------> 
  
 ~~~
 
